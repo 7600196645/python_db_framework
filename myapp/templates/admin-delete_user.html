@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Confirm Delete User{% endblock %}
+{% block content %}
+<style>
+  .confirm-container {
+    max-width: 400px;
+    margin: 80px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .confirm-container h2 {
+    margin-bottom: 20px;
+    color: #e74c3c;
+  }
+  .btn {
+    padding: 10px 18px;
+    margin: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .btn-confirm {
+    background: #e74c3c;
+    color: white;
+  }
+  .btn-cancel {
+    background: #888;
+    color: white;
+  }
+</style>
+
+<div class="confirm-container">
+  <h2>Delete user: "{{ user_obj.username }}"?</h2>
+  <p>This action cannot be undone.</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-confirm">Yes, Delete</button>
+  </form>
+  <a href="{% url 'admin_manage_users' %}" class="btn btn-cancel">Cancel</a>
+</div>
+{% endblock %}

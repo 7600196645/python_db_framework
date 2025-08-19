@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Artist Hub{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h2>Welcome, {{ user.username }}!</h2>
+  <p>This is your personalized dashboard.</p>
+</div>
+
+<div class="card">
+  <h2>My Bookings</h2>
+  <p>View or cancel your bookings.</p>
+</div>
+
+<div class="card">
+  <h2>Artists / Customers</h2>
+  <p>Manage artist/customer data (Admin only).</p>
+</div>
+
+<div class="card">
+  <h2>Upload Performance Media</h2>
+  <p>Upload pictures/videos to showcase (Artist only).</p>
+</div>
+
+<div class="card">
+  <h2>Reviews & Feedback</h2>
+  <p>Share or view performance feedback and reviews.</p>
+</div>
+{% endblock %}

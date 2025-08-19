@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Artist - Admin Panel | Artist Hub</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(to right, #2193b0, #6dd5ed);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      max-width: 600px;
+      width: 90%;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2193b0;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+      margin-top: 20px;
+      color: #333;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .btn {
+      margin-top: 25px;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background-color: #2193b0;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #1a82a1;
+    }
+
+    .success {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+      color: green;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>🎤 Add New Artist</h2>
+  <form id="artistForm">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" placeholder="Enter artist's full name" required>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" placeholder="Enter artist's email" required>
+
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
+
+    <label for="genre">Genre</label>
+    <select id="genre" name="genre" required>
+      <option value="">-- Select Genre --</option>
+      <option value="DJ">DJ</option>
+      <option value="Singer">Singer</option>
+      <option value="Painter">Painter</option>
+      <option value="Dancer">Dancer</option>
+      <option value="Magician">Magician</option>
+    </select>
+
+    <label for="bio">Artist Bio</label>
+    <textarea id="bio" name="bio" rows="4" placeholder="Write a short bio..." required></textarea>
+
+    <label for="image">Profile Image</label>
+    <input type="file" id="image" name="image" accept="image/*" required>
+
+    <button type="submit" class="btn">Add Artist</button>
+    <div class="success" id="successMsg">✅ Artist successfully added!</div>
+  </form>
+</div>
+
+<script>
+  document.getElementById('artistForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    document.getElementById('successMsg').style.display = 'block';
+    setTimeout(() => {
+      window.location.href = "/admin/dashboard";  // Redirect after success
+    }, 2000);
+  });
+</script>
+
+</body>
+</html>

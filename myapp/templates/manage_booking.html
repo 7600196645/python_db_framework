@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Bookings - Artist Hub</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #f83600, #f9d423);
+      color: #333;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 60px auto;
+      background-color: white;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #f83600;
+    }
+
+    .booking {
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin-bottom: 25px;
+      border-radius: 10px;
+      background-color: #fdf9f6;
+    }
+
+    .booking h3 {
+      margin-top: 0;
+      color: #d84315;
+    }
+
+    .booking p {
+      margin: 8px 0;
+      font-size: 15px;
+    }
+
+    .actions {
+      margin-top: 15px;
+    }
+
+    .actions button {
+      background-color: #f57c00;
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-right: 10px;
+      transition: 0.3s;
+    }
+
+    .actions button:hover {
+      background-color: #e65100;
+    }
+
+    .actions .cancel {
+      background-color: #c62828;
+    }
+
+    .actions .cancel:hover {
+      background-color: #b71c1c;
+    }
+
+    .empty {
+      text-align: center;
+      color: #777;
+      font-style: italic;
+      font-size: 16px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🎫 My Bookings</h2>
+
+    <!-- Example Booking 1 -->
+    <div class="booking">
+      <h3>Artist: DJ Groove Master</h3>
+      <p><strong>Date:</strong> August 12, 2025</p>
+      <p><strong>Time:</strong> 7:00 PM - 11:00 PM</p>
+      <p><strong>Purpose:</strong> Wedding Reception</p>
+      <p><strong>Status:</strong> Confirmed</p>
+
+      <div class="actions">
+        <button onclick="alert('Redirecting to reschedule page...')">Reschedule</button>
+        <button class="cancel" onclick="alert('Booking cancelled')">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Example Booking 2 -->
+    <div class="booking">
+      <h3>Artist: Classical Singer Riya</h3>
+      <p><strong>Date:</strong> July 25, 2025</p>
+      <p><strong>Time:</strong> 6:00 PM - 8:30 PM</p>
+      <p><strong>Purpose:</strong> Anniversary Function</p>
+      <p><strong>Status:</strong> Completed</p>
+    </div>
+
+    <!-- If No Bookings -->
+    <!-- <div class="empty">No bookings found.</div> -->
+  </div>
+</body>
+</html>

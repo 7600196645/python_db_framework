@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}All Reviews{% endblock %}
+{% block content %}
+<style>
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+    .styled-table th, .styled-table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    .styled-table th {
+        background-color: #3a0ca3;
+        color: white;
+    }
+    .styled-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    .btn-view, .btn-edit, .btn-delete, .btn-approve, .btn-reject {
+        padding: 6px 12px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 14px;
+        margin-right: 5px;
+    }
+    .btn-view { background: #2196f3; color: white; }
+    .btn-edit { background: #ffc107; color: black; }
+    .btn-delete, .btn-reject { background: #f44336; color: white; }
+    .btn-approve { background: #4caf50; color: white; }
+</style>
+
+<div class="card">
+  <h2>⭐ All Reviews</h2>
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Customer</th>
+        <th>Artist</th>
+        <th>Review</th>
+        <th>Rating</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for review in reviews %}
+      <tr>
+        <td>{{ review.id }}</td>
+        <td>{{ review.customer }}</td>
+        <td>{{ review.artist }}</td>
+        <td>{{ review.text }}</td>
+        <td>{{ review.rating }}/5</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5">No reviews found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
