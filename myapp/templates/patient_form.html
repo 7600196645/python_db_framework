@@ -1,0 +1,30 @@
+<!--3)Write a Django project where JavaScript is used to validate a patient registration form on the client side.-->
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Registration Form</title>
+    <link rel="stylesheet" href="{% static 'css/style3.css' %}">
+    <script src="{% static 'js/validate.js' %}" defer></script>
+    
+</head>
+<body>
+    <h2>Patient Registration Form</h2>
+    <form id="PatientForm" method="post">
+        {% csrf_token %}
+        
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" required>
+
+        <label for="age">Age:</label>
+        <input type="number" name="age" id="age" required>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+
+        <button type="submit">Submit</button>
+    </form>
+    <p id="error" style="color: red;"></p>
+</body>
+</html>

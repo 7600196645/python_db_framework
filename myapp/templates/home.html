@@ -1,0 +1,30 @@
+<!--prac : 1-->
+<!--Write a Django project that renders an HTML file displaying “Welcome to Doctor Finder” on the home page.-->
+<!-- myapp/templates/home.html -->
+{% load static %}
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Finder</title>
+</head>
+<body>
+    <h1>Welcome to Home Page</h1> 
+    <h1>Welcome to Doctor Finder</h1>
+</body>
+</html> {% endcomment %}
+
+<!--prac : 2-->
+<!-- Write a Django project to display a webpage with custom CSS styling for a doctor profile page.-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Finder</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style2.css' %}">
+</head>
+<body>
+    <h1>This is Home Page</h1>
+    <h1>Welcome to Doctor Finder</h1>
+    <a href = "{% url 'profile' %}">Go to Profile Page</a> |
+    <a href = "{% url 'contact' %}">Contact Us</a>
+</body>
+</html>

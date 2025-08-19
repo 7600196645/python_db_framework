@@ -1,0 +1,22 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #eef2f7;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+}
+
+.profile-container {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 400px;
+    text-align: center;
+}
+
+.profile-container h1 {
+    color: #007bff;
+    margin-bottom: 20px;
+}

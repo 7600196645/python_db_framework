@@ -1,0 +1,17 @@
+<!--12)Write a Django project that demonstrates CRUD operations (Create, Read, Update, Delete) on doctor profiles using Django ORM.-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor delete Page</title>
+</head>
+<body>
+<h2>Confirm Deletion</h2>
+<p>Are you sure you want to delete "{{ doctor.name }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
+</form>
+<a href="{% url 'doctor_info' %}">Cancel</a>
+</body>
+</html>

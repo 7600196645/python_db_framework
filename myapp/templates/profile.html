@@ -1,0 +1,23 @@
+<!--2) Write a Django project to display a webpage with custom CSS styling for a doctor profile page.-->
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Profile</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="profile-container">
+        <h1>Doctor Profile Page</h1>
+        <h1>{{ doctor.name }}</h1>
+        <p><strong>Specialization:</strong> {{ doctor.specialization }}</p>
+        <p><strong>Location:</strong> {{ doctor.location }}</p>
+        <p><strong>Email:</strong> <a href="mailto:{{ doctor.email }}">{{ doctor.email }}</a></p>
+        
+    <a href="{% url 'home' %}">Home</a> |
+    <a href="{% url 'contact' %}">Contact</a>
+
+    
+    </div>
+</body>
+</html>

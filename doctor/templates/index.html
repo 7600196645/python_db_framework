@@ -1,0 +1,118 @@
+<!--14) Write a Django project that uses AJAX to add, edit, or delete doctor profiles without refreshing the page.-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Doctors - AJAX CRUD</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <h2>Add Doctor</h2>
+  <form id="doctorForm">
+    <input name="name" placeholder="Name">
+    <input name="specialization" placeholder="Specialization">
+    <input name="email" placeholder="Email">
+    <input name="phone" placeholder="Phone">
+    <input name="available_days" placeholder="available_days">
+    <button type="submit">Add</button>
+  </form>
+  <h2>Update Doctor</h2>
+  <form id="updateForm" style="display:none;">
+    <input type="hidden" name="id" id="edit-id">
+    <input name="name" id="edit-name" placeholder="Name"><br>
+    <input name="specialization" id="edit-specialization" placeholder="Specialization"><br>
+    <input name="email" id="edit-email" placeholder="Email"><br>
+    <input name="phone" id="edit-phone" placeholder="Phone"><br>
+    <input name="available_days" id="edit-available_days" placeholder="available_days"><br>
+    <button type="submit">Update</button>
+  </form>
+
+
+  <h3>Doctor List</h3>
+  <ul id="doctorList">
+    {% for doctor in doctors %}
+      <li id="doc-{{ doctor.id }}">
+        <b>{{ doctor.name }}</b> ({{ doctor.specialization }}) - {{ doctor.email }} - {{ doctor.phone }} - {{doctor.available_days}}
+        <button onclick="editDoctor({{ doctor.id }}, '{{ doctor.name }}', '{{ doctor.specialization }}', '{{ doctor.email }}', '{{ doctor.phone }}', '{{ doctor.available_days }}')">Update</button>
+        <button onclick="deleteDoctor({{ doctor.id }})">Delete</button>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <script>
+    // Add doctor
+    $('#doctorForm').on('submit', function(e){
+      e.preventDefault();
+      $.ajax({
+        url: "{% url 'add_doctor' %}",
+        method: "POST",
+        data: $(this).serialize(),
+        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        success: function(data){
+          $('#doctorList').append(`
+            <li id="doc-${data.id}">
+              <b>${data.name}</b> (${data.specialization}) - ${data.email} - ${data.phone} - ${data.available_days}
+              <button onclick="deleteDoctor(${data.id})">Delete</button>
+            </li>
+          `);
+          $('#doctorForm')[0].reset();
+        }
+      });
+    });
+
+    // Delete doctor
+    function deleteDoctor(id){
+      $.ajax({
+        url: `/delete/${id}/`,
+        method: "POST",
+        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        success: function(data){
+          if(data.status == 'deleted'){
+            $(`#doc-${id}`).remove();
+          }
+        }
+      });
+    }
+
+
+  // Show update form with current values
+  function editDoctor(id, name, specialization, email, phone,available_days) {
+    $('#updateForm').show();
+    $('#edit-id').val(id);
+    $('#edit-name').val(name);
+    $('#edit-specialization').val(specialization);
+    $('#edit-email').val(email);
+    $('#edit-phone').val(phone);
+    $('#edit-available_days').val(available_days);
+  }
+
+  // Submit updated doctor via AJAX
+  $('#updateForm').on('submit', function(e){
+    e.preventDefault();
+    const id = $('#edit-id').val();
+    $.ajax({
+      url: `/update/${id}/`,
+      method: 'POST',
+      headers: {'X-CSRFToken': '{{ csrf_token }}'},
+      data: {
+        name: $('#edit-name').val(),
+        specialization: $('#edit-specialization').val(),
+        email: $('#edit-email').val(),
+        phone: $('#edit-phone').val(),
+        available_days: $('#edit-available_days').val(),
+      },
+      success: function(data){
+        $(`#doc-${id}`).html(`
+          <b>${data.name}</b> (${data.specialization}) - ${data.email} - ${data.phone} - ${data.available_days}
+          <button onclick="editDoctor(${data.id}, '${data.name}', '${data.specialization}', '${data.email}', '${data.phone}', '${data.available_days}')">Edit</button>
+          
+        `);
+        $('#updateForm').hide();
+        $('#updateForm')[0].reset();
+      }
+    });
+  });
+
+  </script>
+</body>
+</html>

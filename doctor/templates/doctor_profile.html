@@ -1,0 +1,42 @@
+<!--7) Write a Django project with models, views, and templates to display doctor information.-->
+<!--10)Write a Django project that uses JavaScript to validate fields like email and phone number in a registration form.-->
+<!--11)Write a Django project to connect to an SQLite/MySQL database and manage doctor records.-->
+<!--12) Write a Django project that demonstrates CRUD operations (Create, Read, Update, Delete) on doctor profiles using Django ORM.-->
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Profile Form</title>
+    <link rel="stylesheet" href="{% static 'css/style3.css' %}"> 
+    <script src="{% static 'validate_page.js' %}" defer></script>  
+</head>
+<body>
+
+    
+    <form name="doctorForm" method="post" onsubmit="return validateDoctorForm();">
+        <h2>Doctor Profile Form </h2>
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" name="name" required>
+
+        <label for="specialization">Specialization:</label>
+        <input type="text" name="specialization" required>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" required>
+
+        <label for="phone">Phone Number:</label>
+        <input type="text" name="phone" required>
+
+        <label for="available_days">Available Days:</label>
+        <input type="text" name="available_days" placeholder="e.g. Monday, Wednesday, Friday" required>
+
+        <button type="submit">Submit</button>
+
+        <p>{{ msg }}</p>
+    </form>
+
+</body>
+
+
+</html>

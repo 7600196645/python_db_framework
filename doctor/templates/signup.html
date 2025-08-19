@@ -1,0 +1,9 @@
+<!--4) Write a Python program to create a Django project and understand its directory structure.-->
+<!--13) Write a Django project to handle user sign up, login, password reset, and profile updates.-->
+<h2>Sign Up</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Sign Up</button>
+</form>
+<a href="{% url 'login_view' %}">Already have an account?</a>

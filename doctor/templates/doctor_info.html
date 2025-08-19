@@ -1,0 +1,28 @@
+<!-- doctors/templates/doctor_info.html -->
+<!--7)Write a Django project with models, views, and templates to display doctor information.-->
+<!--8)Write a Django project to create an admin panel and add custom fields for managing doctor information.-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Info</title>
+</head>
+<body>
+    <h1>Doctors</h1>
+    <a href="{% url 'doctor_profile' %}">Add New Doctor Info</a> |
+    <ul>
+        {% for doctor in doctors %}
+            <li>
+                <strong>{{ doctor.name }}</strong> - {{ doctor.specialization }}<br>
+                Phone: {{ doctor.phone }}<br>
+                Email: {{ doctor.email }}<br>
+                Available: {{ doctor.available_days }}
+                
+                <a href="{% url 'doctor_update' doctor.pk %}">Update Doctor Info</a>    |
+                <a href="{% url 'doctor_delete' doctor.pk %}">Delete Doctor </a>
+            </li>
+        {% empty %}
+            <li>No doctors available.</li>    
+        {% endfor %}
+    </ul>
+</body>
+</html>

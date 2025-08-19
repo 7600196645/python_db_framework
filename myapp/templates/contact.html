@@ -1,0 +1,15 @@
+<!--9)Write a Django project where URL routing is used to navigate between different pages of a “Doctor Finder” site (home, profile, contact).-->
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Finder</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style2.css' %}">
+</head>
+<body>
+    <h1>This is Contact Page</h1>
+    <h1>Welcome to Doctor Finder</h1>
+    <a href = "{% url 'home' %}">Go to Home Page</a> |
+    <a href = "{% url 'profile' %}">Go to Profile Page</a>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!--16) Write a Django project that integrates Paytm for handling payments in the "Doctor Finder" project.-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Appointment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0077cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Book Appointment</h2>
+
+    <form method="POST" action="#">
+        {% csrf_token %}
+
+        <label for="name">Full Name:</label>
+        <input type="text" name="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" required>
+
+        <label for="phone">Phone Number:</label>
+        <input type="text" name="phone" required>
+
+        <label for="doctor">Select Doctor:</label>
+        <select name="doctor" required>
+            {% for doctor in doctors %}
+                <option value="{{ doctor.id }}">{{ doctor.name }} - {{ doctor.specialization }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="date">Appointment Date:</label>
+        <input type="date" name="date" required>
+
+        <label for="notes">Notes (optional):</label>
+        <textarea name="notes" rows="3"></textarea>
+
+        <!-- Hidden amount for payment (or pass from backend dynamically) -->
+        <input type="hidden" name="amount" value="500.00">
+
+        <button type="submit" id="rzp-button1">Book and Pay ₹500</button>
+    </form>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                    <script>
+                        var successUrl = "{% url 'payment_success' %}";
+                        var options = {
+                            "key": "rzp_test_Tt3qOWfteEDZUV", // Enter the Key ID generated from the Dashboard
+                            "amount": "{{context.payment.amount}}",// Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                            "currency": "INR",
+                            "name": "Doctor Find",
+                            "description": "Test Payment", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                            "order_id": "{{ payment.id }}",
+                            "handler": function (response){
+                
+                                //window.location.href=`http://localhost:8000/sucess?razorpay_payment_id=${response.razorpay_payment_id}`
+                                window.location.href = `${successUrl}?razorpay_payment_id=${response.razorpay_payment_id}`;
+                                // alert(response.razorpay_payment_id);
+                                // alert(response.razorpay_order_id);
+                                
+                            },
+                            "theme": {
+                                "color": "#94CA21"
+                            }
+                        };
+                        var rzp1 = new Razorpay(options);
+                        rzp1.on('payment.failed', function (response){
+                                alert(response.error.code);
+                                alert(response.error.description);
+                                alert(response.error.source);
+                                alert(response.error.step);
+                                alert(response.error.reason);
+                                alert(response.error.metadata.order_id);
+                                alert(response.error.metadata.payment_id);
+                        });
+                        
+                        
+                        document.getElementById('rzp-button1').onclick = function(e){
+                            rzp1.open();
+                            e.preventDefault();
+                        }
+</script>      
+</body>
+</html> 
+
+
+
+
+
+
