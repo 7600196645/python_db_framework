@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Profile - Artist Hub{% endblock %}
+
+{% block content %}
+<style>
+  .profile-container {
+    max-width: 600px;
+    background: #fff;
+    padding: 30px;
+    margin: 40px auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .profile-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+  }
+
+  .msg {
+    text-align: center;
+    color: green;
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+
+  form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #444;
+  }
+
+  form input, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 15px;
+    transition: border-color 0.3s;
+  }
+
+  form input:focus, form textarea:focus {
+    border-color: #6a11cb;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 25px;
+    background: #6a11cb;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  button:hover {
+    background: #4a0cad;
+  }
+
+  @media (max-width: 768px) {
+    .profile-container {
+      margin: 20px;
+      padding: 20px;
+    }
+  }
+</style>
+
+<div class="profile-container">
+  <h2>Manage Your Profile</h2>
+
+  {% if msg %}
+    <div class="msg">{{ msg }}</div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" placeholder="Your name" value="{{ user.username }}" required>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" value="{{ user.email }}" readonly required>
+
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" name="phone" placeholder="Your phone" value="{{ user.phone }}" required>
+
+    <label for="bio">Short Bio</label>
+    <textarea id="bio" name="bio" placeholder="Tell us about yourself...">{{ user.bio }}</textarea>
+
+    <label for="profile_image">Profile Image</label>
+    <input type="file" name="profile_image" id="profile_image" accept="image/*">
+
+    {% if user.profile_image %}
+      <div class="profile-image-preview">
+        <img src="{{ user.profile_image.url }}" alt="Current Profile Image">
+        <p>Current Image</p>
+      </div>
+    {% endif %}
+
+    <button type="submit">Update Profile</button>
+  </form>
+</div>
+{% endblock %}

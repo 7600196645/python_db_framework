@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Give Feedback to a Customer{% endblock %}
+{% block content %}
+<style>
+    .feedback-container {
+        max-width: 700px;
+        margin: 50px auto;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .feedback-container h1,
+    .feedback-container h2 {
+        text-align: center;
+        color: #4a00e0;
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    select, textarea {
+        width: 100%;
+        padding: 12px;
+        font-size: 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+    }
+
+    select:focus, textarea:focus {
+        border-color: #4a00e0;
+        outline: none;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(to right, #6a00ff, #4a00e0);
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+        background: linear-gradient(to right, #4a00e0, #6a00ff);
+    }
+
+    .flash {
+        padding: 14px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .flash.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .flash.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .review-section {
+        margin-top: 50px;
+    }
+
+    .review-card {
+        background: #f9f9f9;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .review-card h4 {
+        margin: 0 0 8px;
+        color: #333;
+    }
+
+    .review-card .meta {
+        font-size: 14px;
+        color: #888;
+        margin-bottom: 10px;
+    }
+
+    .review-card .rating {
+        font-weight: bold;
+        color: #ff9800;
+    }
+</style>
+
+<div class="feedback-container">
+    <h1>Give Feedback to a Customer</h1>
+
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="flash {{ msg.tags }}">{{ msg }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="customer_id">Select Customer</label>
+            <select name="customer_id" id="customer_id" required>
+                <option value="">-- Choose a customer --</option>
+                {% for customer in customers %}
+                    <option value="{{ customer.id }}">{{ customer.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="rating">Rating</label>
+            <select name="rating" id="rating" required>
+                {% for i in "12345" %}
+                    <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="content">Feedback</label>
+            <textarea name="content" id="content" rows="5" required></textarea>
+        </div>
+
+        <button type="submit" class="btn">Submit Feedback</button>
+    </form>
+
+    {% if feedbacks %}
+    <div class="review-section">
+        <h2>Your Submitted Feedback</h2>
+        {% for fb in feedbacks %}
+        <div class="review-card">
+            <h4>{{ fb.customer.username }}</h4>
+            <div class="meta">Submitted on {{ fb.created_at|date:"d M Y, h:i A" }}</div>
+            <div class="rating">Rating: {{ fb.rating }} / 5</div>
+            <p>{{ fb.content }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

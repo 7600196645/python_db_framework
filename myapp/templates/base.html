@@ -1,0 +1,168 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Artist Hub{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f4f4;
+    }
+    header {
+      background-color: #3a0ca3;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+    }
+
+    .nav-user {
+      position: relative;
+    }
+
+    .nav-user button {
+      background: none;
+      border: none;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: white;
+      min-width: 180px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      border-radius: 6px;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      display: block;
+      text-decoration: none;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #eee;
+    }
+
+    .nav-user:hover .dropdown-content {
+      display: block;
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #4361ee;
+      color: white;
+      padding-top: 20px;
+    }
+
+    .sidebar h3 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-bottom: 1px solid #4cc9f0;
+    }
+
+    .sidebar a:hover {
+      background-color: #4cc9f0;
+      color: black;
+    }
+
+    .main {
+      flex: 1;
+      padding: 30px;
+    }
+
+    .card {
+      background-color: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #3a0ca3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎨 Artist Hub</h1>
+    <div class="nav-user">
+      {% if request.session.username %}
+        <button>{{ request.session.username }} ⮟</button>
+        <div class="dropdown-content">
+          <a href="{% url 'password_change' %}">Change Password</a>
+          <a href="{% url 'logout' %}">Logout</a>
+        </div>
+      {% else %}
+        <a href="{% url 'login' %}" style="color: white; margin-right: 20px;">Login</a>
+        <a href="{% url 'register' %}" style="color: white;">Register</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="sidebar">
+      <h3>Control Panel</h3>
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      <a href="{% url 'manage_profile' %}">Manage Profile</a>
+      
+      <!-- Artist Options -->
+      {% if request.session.role == 'artist' %}
+        <a href="{% url 'upload_media' %}">Upload Media</a>
+        <a href="{% url 'artist_bookings' %}">View/Mnage Bookings</a>
+        <a href="{% url 'feedback_by_artist_list' %}">Feedback & Reviews </a>
+      
+      <!-- Customer Options -->
+      {% elif request.session.role == 'customer' %}
+        <a href="{% url 'search_artist' %}">Search Artists</a>
+        <a href="{% url 'bookings' %}">View/Manage Bookings</a>
+        <a href="{% url 'feedback_reviews' %}">Feedback & Reviews </a>
+
+       <!-- Admin Options -->
+      {% elif request.session.role == 'admin' %}
+        <a href="{% url 'manage_artist_customer' %}">Manage Artist & Customer</a>
+        <a href="{% url 'view_all_bookings' %}">View All Bookings</a>
+        <a href="{% url 'view_all_reviews' %}">View All Reviews</a>
+        <a href="{% url 'approve_artist' %}">Add Artist After Approval</a>
+        <a href="{% url 'view_all_feedback' %}">View All Feedbacks</a>
+      {% endif %}
+
+      <a href="{% url 'logout' %}">Logout</a>
+    </div>
+
+    <div class="main">
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+</body>
+</html>

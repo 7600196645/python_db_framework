@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .artist-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .artist-card {
+        background: white;
+        border: 1px solid #ddd;
+        padding: 15px;
+        width: 220px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .artist-card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    .btn-book {
+        background-color: #4CAF50;
+        color: white;
+        padding: 8px 14px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-cancel {
+        background-color: #f44336;
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        margin-top: 30px;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f0f0f0;
+    }
+</style>
+
+<h2>Book an Artist</h2>
+
+<div class="artist-grid">
+    {% for artist in artists %}
+        <div class="artist-card">
+            {% if artist.profile_image %}
+                <img src="{{ artist.profile_image.url }}" alt="{{ artist.username }}">
+            {% else %}
+                <img src="{% static 'default-profile.png' %}" alt="No Image">
+            {% endif %}
+            <h3>{{ artist.username }}</h3>
+            <p>Category: {{ artist.latest_media_title|default:"Not provided" }}</p>
+            <form method="post" action="{% url 'book_artist' artist.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn-book">Book</button>
+            </form>
+        </div>
+    {% endfor %}
+</div>
+
+<h2>My Bookings</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Artist Name</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Booked At</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in my_bookings %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ booking.artist.username }}</td>
+                <td>{{ booking.artist.category|default:"Not provided" }}</td>
+                <td>{{ booking.status }}</td>
+                <td>{{ booking.booked_at|date:"d M Y H:i" }}</td>
+                <td>
+                    {% if booking.status != 'canceled' %}
+                        <form method="post" action="{% url 'cancel_booking' booking.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-cancel">Cancel</button>
+                        </form>
+                    {% else %}
+                        <span style="color: gray;">Canceled</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="6">You haven't booked any artists yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

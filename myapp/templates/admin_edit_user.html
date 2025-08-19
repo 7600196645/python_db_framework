@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Edit User{% endblock %}
+{% block content %}
+<style>
+  .form-container {
+    max-width: 500px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .form-group {
+    margin-bottom: 18px;
+  }
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    transition: border-color 0.3s;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: #6a00cb;
+  }
+  .btn {
+    width: 100%;
+    padding: 12px;
+    background: #6a00cb;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .btn:hover {
+    background: #4a0cad;
+  }
+  .flash {
+    padding: 14px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .flash.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+</style>
+
+<div class="form-container">
+  <h2>Edit User: {{ user_obj.username }}</h2>
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="flash {{ msg.tags }}">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" name="username" value="{{ user_obj.username }}" required>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" name="email" value="{{ user_obj.email }}" required>
+    </div>
+    <div class="form-group">
+      <label>Phone</label>
+      <input type="text" name="phone" value="{{ user_obj.phone }}" required>
+    </div>
+    <div class="form-group">
+      <label>Role</label>
+      <select name="role" required>
+        <option value="customer" {% if user_obj.role=='customer' %}selected{% endif %}>Customer</option>
+        <option value="artist" {% if user_obj.role=='artist' %}selected{% endif %}>Artist</option>
+        <option value="admin" {% if user_obj.role=='admin' %}selected{% endif %}>Admin</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Category</label>
+      <input type="text" name="category" value="{{ user_obj.category }}">
+    </div>
+    <div class="form-group">
+      <label>Bio</label>
+      <textarea name="bio" rows="4">{{ user_obj.bio }}</textarea>
+    </div>
+    <div class="form-group">
+      <label>Profile Image</label>
+      <input type="file" name="profile_image" accept="image/*">
+      {% if user_obj.profile_image %}
+        <img src="{{ user_obj.profile_image.url }}" alt="Current image" style="max-width:80px; margin-top:10px;">
+      {% endif %}
+    </div>
+    <button type="submit" class="btn">Save Changes</button>
+  </form>
+</div>
+{% endblock %}

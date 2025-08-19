@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block title %}{{ artist.username }} - Artist Profile{% endblock %}
+
+{% block content %}
+<style>
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 30px;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    border-radius: 12px;
+    color: white;
+    margin-bottom: 40px;
+  }
+
+  .profile-header img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+
+  .profile-header .info {
+    flex: 1;
+  }
+
+  .profile-header .info h2 {
+    margin-bottom: 10px;
+    font-size: 28px;
+  }
+
+  .profile-header .info p {
+    margin: 5px 0;
+  }
+
+  .media-section {
+    padding: 10px 30px;
+  }
+
+  .media-section h3 {
+    margin-bottom: 20px;
+    color: #3a0ca3;
+  }
+
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .media-card {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+  }
+
+  .media-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .media-card img,
+  .media-card video {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  .media-card h4 {
+    margin-top: 10px;
+    color: #222;
+  }
+
+  .media-card p {
+    font-size: 14px;
+    color: #555;
+  }
+</style>
+
+<!-- Artist Header -->
+<div class="profile-header">
+  <img src="{{ artist.profile_image.url if artist.profile_image else 'https://via.placeholder.com/150' }}" alt="{{ artist.username }}">
+
+  <div class="info">
+    <h2>{{ artist.username }}</h2>
+    <p><strong>Category:</strong> {{ artist.category|default:"Not specified" }}</p>
+    <p><strong>Email:</strong> {{ artist.email }}</p>
+    <p><strong>Phone:</strong> {{ artist.phone }}</p>
+    <p><strong>Bio:</strong> {{ artist.bio|default:"No bio provided." }}</p>
+    <p><strong>Rating:</strong> ⭐ {{ artist.rating|floatformat:1 }}</p>
+  </div>
+</div>
+
+<!-- Uploaded Media -->
+<div class="media-section">
+  <h3>Performance Media</h3>
+
+  {% if media_files %}
+    <div class="media-grid">
+      {% for media in media_files %}
+        <div class="media-card">
+          {% if media.media_type == "image" %}
+            <img src="{{ media.file.url }}" alt="{{ media.title }}">
+          {% elif media.media_type == "video" %}
+            <video controls>
+              <source src="{{ media.file.url }}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          {% endif %}
+          <h4>{{ media.title }}</h4>
+          <p>{{ media.description }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No media uploaded yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

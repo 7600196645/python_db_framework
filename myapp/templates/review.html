@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Feedback & Reviews - Artist Hub{% endblock %}
+{% block content %}
+
+<div class="reviews-container">
+  <h1>Feedback & Reviews</h1>
+
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="flash {{ msg.tags }}">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Review Submission Form (for customer only) -->
+  {% if request.session.role == 'customer' %}
+    <div class="form-card">
+      <h2>Leave a Review</h2>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="field">
+          <label for="artist">Artist</label>
+          <select name="artist_id" id="artist" required>
+            <option value="">--- Select Artist ---</option>
+            {% for artist in artists %}
+              <option value="{{ artist.id }}">{{ artist.username }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="field">
+          <label for="rating">Rating</label>
+          <select name="rating" id="rating" required>
+            {% for i in "12345" %}
+              <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="field">
+          <label for="content">Feedback</label>
+          <textarea name="content" id="content" rows="4" placeholder="Write your feedback..." required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Submit Review</button>
+      </form>
+    </div>
+  {% endif %}
+
+  
+
+<style>
+.reviews-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+h1, h2 { text-align: center; color: #4a00e0; }
+.form-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.field { margin-bottom: 18px; }
+.field label { display: block; margin-bottom: 6px; font-weight: 600; }
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.btn-submit {
+  background: #4a00e0;
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  width: 100%;
+}
+.btn-submit:hover { background: #360096; }
+.reviews-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.review-card {
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+}
+.review-card .details {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.review-card .avatar img {
+  width: 54px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 14px;
+}
+.review-card h3 { margin: 0; color: #333; font-size: 18px; }
+.review-card p { margin: 4px 0; color: #555; }
+.review-card .content {
+  margin-top: 8px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.flash {
+  padding: 12px;
+  margin-bottom: 24px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+}
+.flash.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.flash.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+@media(max-width:768px) {
+  .reviews-list { gap: 16px; }
+}
+</style>
+
+{% endblock %}

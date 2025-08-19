@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.log
+
+# Virtual environments
+venv/
+.env/
+.env.*  # if you use .env.development, etc.
+
+# Django
+db.sqlite3
+media/           # user uploads (optional, keep it out of GitHub)
+staticfiles/     # collected static files (STATIC_ROOT)
+*.sqlite3
+
+# OS / editor junk
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/

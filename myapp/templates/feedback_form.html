@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Give Feedback - Artist Hub</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(to right, #ff9966, #ff5e62);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 40px;
+      max-width: 500px;
+      width: 90%;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #ff5e62;
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: 500;
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .stars {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+
+    .stars input {
+      display: none;
+    }
+
+    .stars label {
+      font-size: 30px;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .stars input:checked ~ label,
+    .stars label:hover,
+    .stars label:hover ~ label {
+      color: gold;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      background-color: #ff5e62;
+      border: none;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #e94e4e;
+    }
+
+    .success {
+      text-align: center;
+      color: green;
+      margin-top: 15px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>📝 Give Feedback</h2>
+
+  <form id="feedbackForm">
+    <label for="role">Your Role</label>
+    <select id="role" name="role" required>
+      <option value="">-- Select Role --</option>
+      <option value="Artist">Artist</option>
+      <option value="Customer">Customer</option>
+    </select>
+
+    <label for="artistName">Artist Name</label>
+    <input type="text" id="artistName" name="artistName" placeholder="e.g., DJ Groove Master" required>
+
+    <label>Rating</label>
+    <div class="stars">
+      <input type="radio" id="star5" name="rating" value="5" required/><label for="star5">★</label>
+      <input type="radio" id="star4" name="rating" value="4"/><label for="star4">★</label>
+      <input type="radio" id="star3" name="rating" value="3"/><label for="star3">★</label>
+      <input type="radio" id="star2" name="rating" value="2"/><label for="star2">★</label>
+      <input type="radio" id="star1" name="rating" value="1"/><label for="star1">★</label>
+    </div>
+
+    <label for="feedback">Feedback</label>
+    <textarea id="feedback" name="feedback" rows="4" placeholder="Write your feedback here..." required></textarea>
+
+    <button type="submit">Submit Feedback</button>
+
+    <div class="success" id="successMsg">✅ Feedback submitted successfully!</div>
+  </form>
+</div>
+
+<script>
+  document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    document.getElementById('successMsg').style.display = 'block';
+    setTimeout(() => {
+      window.location.href = "/dashboard"; // Redirect to dashboard after 2 seconds
+    }, 2000);
+  });
+</script>
+
+</body>
+</html>

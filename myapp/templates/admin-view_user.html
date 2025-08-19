@@ -1,0 +1,62 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+{% block title %}View User{% endblock %}
+{% block content %}
+<style>
+  .card {
+    max-width: 500px;
+    margin: 50px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .card img {
+    max-width: 120px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 20px;
+  }
+  .card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  .card p {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+  .btn {
+    display: inline-block;
+    margin-top: 20px;
+    background: #6a00cb;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+</style>
+
+<div class="card">
+  {% if user_obj.profile_image %}
+    <img src="{{ user_obj.profile_image.url }}" alt="Profile Image">
+  {% endif %}
+  <h2>{{ user_obj.username }}</h2>
+
+  <p><strong>Email:</strong> {{ user_obj.email }}</p>
+  <p><strong>Phone:</strong> {{ user_obj.phone }}</p>
+  <p><strong>Role:</strong> {{ user_obj.role|capfirst }}</p>
+  {% if user_obj.category %}
+    <p><strong>Category:</strong> {{ user_obj.category }}</p>
+  {% endif %}
+  {% if user_obj.bio %}
+    <p><strong>Bio:</strong> {{ user_obj.bio }}</p>
+  {% endif %}
+
+  <a href="{% url 'admin_edit_user' user_obj.id %}" class="btn">Edit User</a>
+  <a href="{% url 'admin_manage_users' %}" class="btn" style="background:#888;">Back to List</a>
+</div>
+{% endblock %}
